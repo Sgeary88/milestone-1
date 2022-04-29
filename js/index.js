@@ -13,21 +13,23 @@ let mx = 2
 let my = -2
 
 // create function to draw circle
-function draw() {
+function drawBall() {
     render.beginPath();
     render.arc(x, y, 10, 0, Math.PI*2);
     render.fillStyle = 'blue';
     render.fill();
     render.closePath();
-    x += mx;
-    y += my;
+   
 }
 
-
+function draw() {
+    render.clearRect(0, 0, canv.width, canv.height);
+    drawBall();
+     // added variables to move circle
+     x += mx;
+     y += my;
+}
 setInterval(draw, 10);
-
-// drawing circle
-
 
 
 // need to create ball
