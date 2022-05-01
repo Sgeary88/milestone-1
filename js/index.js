@@ -39,13 +39,26 @@ let bricks = [];
 for (let column = 0; column < brickColumn; column++) {
     bricks[column] = [];
     for (let row = 0; row < brickRow; row++) {
-        bricks[column][row] = {x:0, y:0};
+        bricks[column][row] = {x:0, y:0, status: 1};
     }
 }
 
 // adding event listeners for key presses
 document.addEventListener('keydown', keyDown, false);
 document.addEventListener('keyup', keyUp, false);
+
+// function for collision detection on bricks
+function collisionHit() {
+    for(let column = 0; column < brickColumn; column++) {
+        for(let row = 0; row < brickRow; row++) {
+            let b = bricks[column][row];
+            if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+                my = -my;
+                b.status = 0;
+            }
+        }
+    }
+}
 
 // create function to draw circle
 function drawBall() {
@@ -70,7 +83,9 @@ function drawPaddle() {
 function drawBricks() {
     // loops for creating bricks
     for (let column = 0; column < brickColumn; column++) {
-        for (let row = 0; row < brickRow; row++) {
+        for (let row = 0; row < brickRow; row++)
+            // checks status to see if brick should be created
+            if(bricks[column][row].status == 1) {
             // brickX sets row location, brickY sets column location
             let brickX = (column*(brickWidth + brickPadding)) + brickOffsetLeft;
             let brickY = (row*(brickHeight + brickPadding)) + brickOffsetTop;
@@ -90,6 +105,7 @@ function draw() {
     drawBricks();
     drawBall();
     drawPaddle();
+    collisionHit();
     
     // hit detection on walls
     if (y + my < ballRadius) {
@@ -147,6 +163,7 @@ function keyUp(k) {
         leftKey = false;
     }
 }
+
 
 // moving ball variable
 let interval = setInterval(draw, 10);
