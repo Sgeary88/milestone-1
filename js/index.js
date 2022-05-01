@@ -13,19 +13,35 @@ let mx = 1
 let my = -1
 
 // creating a variable for ball radius
-let ballRadius = 5;
+let ballRadius = 4;
 
 // creating variable for paddle paddleX starting locations for paddle
-const paddleHeight = 10;
-const paddleWidth = 75;
+const paddleHeight = 5;
+const paddleWidth = 60;
 let paddleX = (canv.width-paddleWidth)/2;
 
 // creating variables for left and right key presses, is false because key are not pressed in the beginning
 let rightKey = false;
 let leftKey = false;
 
-// moving ball variable
-let interval = setInterval(draw, 10);
+// variables for bricks
+let brickRow = 3;
+let brickColumn = 5;
+const brickWidth = 40;
+const brickHeight = 5;
+const brickPadding = 10;
+let brickOffsetTop = 10;
+let brickOffsetLeft = 30;
+
+
+// creates a new empty array, '[]', in bricks at position column and row
+let bricks = [];
+for (let column = 0; column < brickColumn; column++) {
+    bricks[column] = [];
+    for (let row = 0; row < brickRow; row++) {
+        bricks[column][row] = {x:0, y:0};
+    }
+}
 
 // adding event listeners for key presses
 document.addEventListener('keydown', keyDown, false);
@@ -47,14 +63,34 @@ function drawPaddle() {
     render.fillStyle = 'blue';
     render.fill();
     render.closePath;
-   
+    
+}
+
+// function for drawing bricks, loops through all the bricks in the array
+function drawBricks() {
+    // loops for creating bricks
+    for (let column = 0; column < brickColumn; column++) {
+        for (let row = 0; row < brickRow; row++) {
+            // brickX sets row location, brickY sets column location
+            let brickX = (column*(brickWidth + brickPadding)) + brickOffsetLeft;
+            let brickY = (row*(brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[column][row].x = brickX;
+            bricks[column][row].y = brickY;
+            render.beginPath();
+            render.rect(brickX, brickY, brickWidth, brickHeight);
+            render.fillStyle = 'blue';
+            render.fill();
+            render.closePath();
+        }
+    }
 }
 
 function draw() {
     render.clearRect(0, 0, canv.width, canv.height);
+    drawBricks();
     drawBall();
     drawPaddle();
-
+    
     // hit detection on walls
     if (y + my < ballRadius) {
         my = -my;
@@ -62,6 +98,7 @@ function draw() {
     if ( x + mx > canv.width-ballRadius || x + mx < ballRadius) {
         mx = -mx;
     }
+    // hit detection for paddle
     else if(y + my > canv.height-ballRadius) {
         if(x > paddleX && x < paddleX + paddleWidth) {
             my = -my;
@@ -102,15 +139,17 @@ function keyDown(k) {
     }
 }
 
-    function keyUp(k) {
-        if (k.key == 'Right' || k.key == 'ArrowRight') {
-            rightKey = false;
-        }
-        else if(k.key = 'Left' || k.key == 'ArrowLeft') {
-            leftKey = false;
-        }
+function keyUp(k) {
+    if (k.key == 'Right' || k.key == 'ArrowRight') {
+        rightKey = false;
     }
+    else if(k.key = 'Left' || k.key == 'ArrowLeft') {
+        leftKey = false;
+    }
+}
 
+// moving ball variable
+let interval = setInterval(draw, 10);
 
 
 // need to create bricks
