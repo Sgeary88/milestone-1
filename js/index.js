@@ -24,6 +24,9 @@ let paddleX = (canv.width-paddleWidth)/2;
 let rightKey = false;
 let leftKey = false;
 
+// moving ball variable
+let interval = setInterval(draw, 10);
+
 // adding event listeners for key presses
 document.addEventListener('keydown', keyDown, false);
 document.addEventListener('keyup', keyUp, false);
@@ -37,6 +40,7 @@ function drawBall() {
     render.closePath();
 }
 
+// drawing the paddle
 function drawPaddle() {
     render.beginPath();
     render.rect(paddleX, canv.height-paddleHeight, paddleWidth, paddleHeight);
@@ -50,12 +54,24 @@ function draw() {
     render.clearRect(0, 0, canv.width, canv.height);
     drawBall();
     drawPaddle();
+
     // hit detection on walls
-    if (y + my > canv.height-ballRadius || y + my < ballRadius) {
+    if (y + my < ballRadius) {
         my = -my;
-    }
+    } 
     if ( x + mx > canv.width-ballRadius || x + mx < ballRadius) {
         mx = -mx;
+    }
+    else if(y + my > canv.height-ballRadius) {
+        if(x > paddleX && x < paddleX + paddleWidth) {
+            my = -my;
+        }
+        // created game over scenario
+        else {
+            alert('GAME OVER');
+            document.location.reload();
+            clearInterval(interval);
+        }
     }
     
     // paddle speed and keeping paddle within width
@@ -95,11 +111,9 @@ function keyDown(k) {
         }
     }
 
-setInterval(draw, 10);
 
-// need to cread bottom paddle
+
 // need to create bricks
-// need to create movement for bottom paddle
 // removing blocks on hit detection
 
 
