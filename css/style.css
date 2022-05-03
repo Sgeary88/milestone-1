@@ -3,11 +3,6 @@
     margin: 0;
 }
 
-canvas {
-    width: 960px;
-    height: 640px;
-}
-
 #myCanvas {
     background: grey;
     display: block;

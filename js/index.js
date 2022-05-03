@@ -4,20 +4,28 @@ const canv = document.getElementById('myCanvas');
 // getContext returns a drawing context on the canvas, rendering in '2d'
 const render = canv.getContext('2d');
 
+// adds background img
+/*const backImg = new Image();
+backImg.src = ' ';
+ */
+
+// variable for score
+let score = 0;
+
 // creating variables for starting location of ball, also connection to x, y variables to ball arc
 let x = canv.width/2;
 let y = canv.height-30;
 
 // creating variables for movement for ball
-let mx = 1
-let my = -1
+let mx = 2
+let my = -2
 
 // creating a variable for ball radius
-let ballRadius = 4;
+let ballRadius = 6;
 
 // creating variable for paddle paddleX starting locations for paddle
-const paddleHeight = 5;
-const paddleWidth = 60;
+const paddleHeight = 20;
+const paddleWidth = 100;
 let paddleX = (canv.width-paddleWidth)/2;
 
 // creating variables for left and right key presses, is false because key are not pressed in the beginning
@@ -26,11 +34,11 @@ let leftKey = false;
 
 // variables for bricks
 let brickRow = 3;
-let brickColumn = 5;
-const brickWidth = 40;
-const brickHeight = 5;
+let brickColumn = 6;
+const brickWidth = 50;
+const brickHeight = 10;
 const brickPadding = 10;
-let brickOffsetTop = 10;
+let brickOffsetTop = 50;
 let brickOffsetLeft = 30;
 
 
@@ -55,6 +63,12 @@ function collisionHit() {
             if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
                 my = -my;
                 b.status = 0;
+                score++;
+                // console.log(b);
+                // !!!!! work on this needs to delete brick on hit!!!!!******
+                // if(b.status = 0)  {
+                  // b.status.filter([column], [row]);
+                //}
             }
         }
     }
@@ -64,8 +78,10 @@ function collisionHit() {
 function drawBall() {
     render.beginPath();
     render.arc(x, y, ballRadius, 0, Math.PI*2);
-    render.fillStyle = 'blue';
+    render.fillStyle = 'green';
     render.fill();
+    render.strokeStyle = 'black';
+    render.stroke();
     render.closePath();
 }
 
@@ -75,6 +91,8 @@ function drawPaddle() {
     render.rect(paddleX, canv.height-paddleHeight, paddleWidth, paddleHeight);
     render.fillStyle = 'blue';
     render.fill();
+    render.strokeStyle = 'black';
+    render.stroke();
     render.closePath;
     
 }
@@ -100,12 +118,19 @@ function drawBricks() {
     }
 }
 
+function drawScore() {
+    render.font = '16px Arial';
+    render.fillStyle = 'yellow';
+    render.fillText('Score: ' + score, 8, 20);
+}
+
 function draw() {
     render.clearRect(0, 0, canv.width, canv.height);
     drawBricks();
     drawBall();
     drawPaddle();
     collisionHit();
+    drawScore();
     
     // hit detection on walls
     if (y + my < ballRadius) {
@@ -167,8 +192,6 @@ function keyUp(k) {
 
 // moving ball variable
 let interval = setInterval(draw, 10);
-
-
 // need to create bricks
 // removing blocks on hit detection
 
