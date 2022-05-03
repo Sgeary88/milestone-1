@@ -60,15 +60,22 @@ function collisionHit() {
     for(let column = 0; column < brickColumn; column++) {
         for(let row = 0; row < brickRow; row++) {
             let b = bricks[column][row];
+            if(b.status == 1) {
             if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
                 my = -my;
                 b.status = 0;
                 score++;
+                if (score === brickRow * brickColumn) {
+                    alert('YOU WIN!!!');
+                    document.location.reload();
+                    clearInterval(interval);
+                }
                 // console.log(b);
                 // !!!!! work on this needs to delete brick on hit!!!!!******
                 // if(b.status = 0)  {
                   // b.status.filter([column], [row]);
                 //}
+                }
             }
         }
     }
