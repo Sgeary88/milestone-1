@@ -12,13 +12,16 @@ backImg.src = ' ';
 // variable for score
 let score = 0;
 
+// variable for lives
+let lives = 3;
+
 // creating variables for starting location of ball, also connection to x, y variables to ball arc
 let x = canv.width/2;
 let y = canv.height-30;
 
 // creating variables for movement for ball
-let mx = 2
-let my = -2
+let mx = 3
+let my = -3
 
 // creating a variable for ball radius
 let ballRadius = 6;
@@ -54,6 +57,8 @@ for (let column = 0; column < brickColumn; column++) {
 // adding event listeners for key presses
 document.addEventListener('keydown', keyDown, false);
 document.addEventListener('keyup', keyUp, false);
+// adding event listeners for mouse movement
+document.addEventListener('mousemove', mouseMoveHandler, false);
 
 // function for collision detection on bricks
 function collisionHit() {
@@ -69,12 +74,7 @@ function collisionHit() {
                     alert('YOU WIN!!!');
                     document.location.reload();
                     clearInterval(interval);
-                }
-                // console.log(b);
-                // !!!!! work on this needs to delete brick on hit!!!!!******
-                // if(b.status = 0)  {
-                  // b.status.filter([column], [row]);
-                //}
+                    }
                 }
             }
         }
@@ -103,6 +103,13 @@ function drawPaddle() {
     render.closePath;
     
 }
+// clientX returns horizontal coordinate of the mouse pointer
+function mouseMoveHandler(e) {
+    let mouseX = e.clientX - canv.offsetLeft;
+    if(mouseX > 0 && mouseX < canv.width) {
+        paddleX = mouseX - paddleWidth/2;
+    }
+}
 
 // function for drawing bricks, loops through all the bricks in the array
 function drawBricks() {
@@ -126,6 +133,7 @@ function drawBricks() {
 }
 
 function drawScore() {
+    drawLives();
     render.font = '16px Arial';
     render.fillStyle = 'yellow';
     render.fillText('Score: ' + score, 8, 20);
@@ -153,9 +161,18 @@ function draw() {
         }
         // created game over scenario
         else {
-            alert('GAME OVER');
-            document.location.reload();
-            clearInterval(interval);
+           lives--;
+           if(!lives) {
+               alert('GAME OVER!');
+               document.location.reload();
+           }
+           else {
+               x = canv.width/2;
+               y = canv.height-30;
+               mx = 3;
+               my = -3
+               paddleX = (canv.width-paddleWidth)/2;
+           }
         }
     }
     
@@ -194,6 +211,13 @@ function keyUp(k) {
     else if(k.key = 'Left' || k.key == 'ArrowLeft') {
         leftKey = false;
     }
+}
+
+// function for lives
+function drawLives() {
+    render.font = '16px Arial';
+    render.fillStyle = 'yellow';
+    render.fillText('Lives: ' + lives, canv.width-65, 20);
 }
 
 
