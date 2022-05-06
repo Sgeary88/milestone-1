@@ -17,7 +17,7 @@ let lives = 3;
 
 // creating variables for starting location of ball, also connection to x, y variables to ball arc
 let x = canv.width/2;
-let y = canv.height-100;
+let y = canv.height-80;
 
 // creating variables for movement for ball
 let mx = 3
@@ -166,7 +166,7 @@ function draw() {
             }
             else {
                 x = canv.width/2;
-                y = canv.height-30;
+                y = canv.height-80;
                 mx = 3;
                 my = -3
                 paddleX = (canv.width-paddleWidth)/2;
