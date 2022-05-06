@@ -5,9 +5,9 @@ const canv = document.getElementById('myCanvas');
 const render = canv.getContext('2d');
 
 // adds background img
-/*const backImg = new Image();
-backImg.src = ' ';
- */
+const backImg = new Image();
+backImg.src = './img/pink-purple-gradient.jpg';
+
 
 // variable for score
 let score = 0;
@@ -17,7 +17,7 @@ let lives = 3;
 
 // creating variables for starting location of ball, also connection to x, y variables to ball arc
 let x = canv.width/2;
-let y = canv.height-30;
+let y = canv.height-100;
 
 // creating variables for movement for ball
 let mx = 3
@@ -30,6 +30,8 @@ let ballRadius = 6;
 const paddleHeight = 20;
 const paddleWidth = 100;
 let paddleX = (canv.width-paddleWidth)/2;
+const paddleMarginBottom = 50;
+
 
 // creating variables for left and right key presses, is false because key are not pressed in the beginning
 let rightKey = false;
@@ -73,7 +75,7 @@ function collisionHit() {
                 if (score === brickRow * brickColumn) {
                     alert('YOU WIN!!!');
                     document.location.reload();
-                    clearInterval(interval);
+                    
                     }
                 }
             }
@@ -85,7 +87,7 @@ function collisionHit() {
 function drawBall() {
     render.beginPath();
     render.arc(x, y, ballRadius, 0, Math.PI*2);
-    render.fillStyle = 'green';
+    render.fillStyle = 'red';
     render.fill();
     render.strokeStyle = 'black';
     render.stroke();
@@ -95,10 +97,10 @@ function drawBall() {
 // drawing the paddle
 function drawPaddle() {
     render.beginPath();
-    render.rect(paddleX, canv.height-paddleHeight, paddleWidth, paddleHeight);
-    render.fillStyle = 'blue';
+    render.rect(paddleX, canv.height-paddleHeight-paddleMarginBottom, paddleWidth, paddleHeight);
+    render.fillStyle = 'black';
     render.fill();
-    render.strokeStyle = 'black';
+    render.strokeStyle = 'yellow';
     render.stroke();
     render.closePath;
     
@@ -125,22 +127,18 @@ function drawBricks() {
             bricks[column][row].y = brickY;
             render.beginPath();
             render.rect(brickX, brickY, brickWidth, brickHeight);
-            render.fillStyle = 'blue';
+            render.fillStyle = 'yellow';
             render.fill();
+            render.strokeStyle = 'black';
+            render.stroke();
             render.closePath();
         }
     }
 }
 
-function drawScore() {
-    drawLives();
-    render.font = '16px Arial';
-    render.fillStyle = 'yellow';
-    render.fillText('Score: ' + score, 8, 20);
-}
 
 function draw() {
-    render.clearRect(0, 0, canv.width, canv.height);
+    render.drawImage(backImg, 0, 0)
     drawBricks();
     drawBall();
     drawPaddle();
@@ -155,24 +153,24 @@ function draw() {
         mx = -mx;
     }
     // hit detection for paddle
-    else if(y + my > canv.height-ballRadius) {
+    else if(y + my > canv.height-ballRadius-paddleMarginBottom) {
         if(x > paddleX && x < paddleX + paddleWidth) {
             my = -my;
         }
         // created game over scenario
         else {
-           lives--;
-           if(!lives) {
-               alert('GAME OVER!');
-               document.location.reload();
-           }
-           else {
-               x = canv.width/2;
-               y = canv.height-30;
-               mx = 3;
-               my = -3
-               paddleX = (canv.width-paddleWidth)/2;
-           }
+            lives--;
+            if(!lives) {
+                alert('GAME OVER!');
+                document.location.reload();
+            }
+            else {
+                x = canv.width/2;
+                y = canv.height-30;
+                mx = 3;
+                my = -3
+                paddleX = (canv.width-paddleWidth)/2;
+            }
         }
     }
     
@@ -192,6 +190,7 @@ function draw() {
     // added variables to move circle
     x += mx;
     y += my;
+    requestAnimationFrame(draw);
 }
 
 // creating functions for key down and key up
@@ -212,20 +211,24 @@ function keyUp(k) {
         leftKey = false;
     }
 }
+// draw score function
+function drawScore() {
+    drawLives();
+    render.font = '25px Monaco';
+    render.fillStyle = 'yellow';
+    render.fillText('Score: ' + score, 8, 20);
+}
 
 // function for lives
 function drawLives() {
-    render.font = '16px Arial';
+    render.font = '25px Monaco';
     render.fillStyle = 'yellow';
-    render.fillText('Lives: ' + lives, canv.width-65, 20);
+    render.fillText('Lives: ' + lives, canv.width-85, 20);
 }
 
 
-// moving ball variable
-let interval = setInterval(draw, 10);
-// need to create bricks
-// removing blocks on hit detection
 
+draw();
 
 
 
