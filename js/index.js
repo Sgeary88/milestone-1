@@ -15,8 +15,8 @@ let x = canv.width/2;
 let y = canv.height-80;
 
 // creating variables for movement for ball
-let mx = 2
-let my = -2
+let mx = 3
+let my = -3
 
 // creating a variable for ball radius
 let ballRadius = 6;
@@ -182,8 +182,8 @@ function draw() {
             else {
                 x = canv.width/2;
                 y = canv.height-80;
-                mx = 2;
-                my = -2;
+                mx = 3 * (Math.random() * 2 - 1);
+                my = -3;
                 paddleX = (canv.width-paddleWidth)/2;
             }
         }
