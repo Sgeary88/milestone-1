@@ -32,7 +32,6 @@ Came across a few bugs, while building and adding to the code.
 2. Wanted to add a starting screen, with a play but to start the game. 
 3. Wanted to add an onclick function when starting and after each life so the game doesn't start right away. 
 4. Wanted to add some music.
-5. Wanted to add soundFX.
-6. Wanted to add more levels, with harder bricks. 
-7. Wanted to add power ups. MULTIBALL!!!!!(sad face).
+5. Wanted to add more levels, with harder bricks. 
+6. Wanted to add power ups. MULTIBALL!!!!!(sad face).
 

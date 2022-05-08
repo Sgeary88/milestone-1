@@ -9,19 +9,14 @@ const backImg = new Image();
 backImg.src = './img/pink-purple-gradient.jpg';
 
 
-// variable for score
-let score = 0;
-
-// variable for lives
-let lives = 3;
 
 // creating variables for starting location of ball, also connection to x, y variables to ball arc
 let x = canv.width/2;
 let y = canv.height-80;
 
 // creating variables for movement for ball
-let mx = 3
-let my = -3
+let mx = 2
+let my = -2
 
 // creating a variable for ball radius
 let ballRadius = 6;
@@ -32,6 +27,18 @@ const paddleWidth = 100;
 let paddleX = (canv.width-paddleWidth)/2;
 const paddleMarginBottom = 50;
 
+// variable for score
+let score = 0;
+
+// variable for lives
+let lives = 3;
+
+// sound variable
+const fxBrick = new Audio('./SFX/Dull-Bubble.mp3');
+const fxPaddle = new Audio('./SFX/Dull-Bubble.mp3');
+const fxWall = new Audio('./SFX/Dull-Bubble.mp3');
+const fxWin = new Audio('./SFX/male-voice-cheer.wav');
+const fxLose = new Audio('./SFX/sad-trombone.mp3')
 
 // creating variables for left and right key presses, is false because key are not pressed in the beginning
 let rightKey = false;
@@ -59,8 +66,9 @@ for (let column = 0; column < brickColumn; column++) {
 // adding event listeners for key presses
 document.addEventListener('keydown', keyDown, false);
 document.addEventListener('keyup', keyUp, false);
+
 // adding event listeners for mouse movement
-document.addEventListener('mousemove', mouseMoveHandler, false);
+// document.addEventListener('mousemove', mouseMoveHandler, false);
 
 // function for collision detection on bricks
 function collisionHit() {
@@ -70,10 +78,12 @@ function collisionHit() {
             if(b.status == 1) {
             if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
                 my = -my;
+                fxBrick.play();
                 b.status = 0;
                 score++;
                 if (score === brickRow * brickColumn) {
                     alert('YOU WIN!!!');
+                    fxWin.play();
                     document.location.reload();
                     
                     }
@@ -106,12 +116,13 @@ function drawPaddle() {
     
 }
 // clientX returns horizontal coordinate of the mouse pointer
-function mouseMoveHandler(e) {
+/* function mouseMoveHandler(e) {
     let mouseX = e.clientX - canv.offsetLeft;
     if(mouseX > 0 && mouseX < canv.width) {
         paddleX = mouseX - paddleWidth/2;
     }
 }
+*/
 
 // function for drawing bricks, loops through all the bricks in the array
 function drawBricks() {
@@ -148,27 +159,31 @@ function draw() {
     // hit detection on walls
     if (y + my < ballRadius) {
         my = -my;
+        fxWall.play();
     } 
     if ( x + mx > canv.width-ballRadius || x + mx < ballRadius) {
         mx = -mx;
+        fxWall.play();
     }
     // hit detection for paddle
     else if(y + my > canv.height-ballRadius-paddleMarginBottom) {
         if(x > paddleX && x < paddleX + paddleWidth) {
             my = -my;
+            fxPaddle.play();
         }
         // created game over scenario
-        else {
+        if(y + ballRadius > canv.height) {
             lives--;
             if(!lives) {
+                fxLose.play();
                 alert('GAME OVER!');
                 document.location.reload();
             }
             else {
                 x = canv.width/2;
                 y = canv.height-80;
-                mx = 3;
-                my = -3
+                mx = 2;
+                my = -2;
                 paddleX = (canv.width-paddleWidth)/2;
             }
         }
