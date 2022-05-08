@@ -1,4 +1,4 @@
-# milestone-1
+<bold>Brick Breaker game</bold>
 Built a brick breaker game. Brick Breaker was one of the games that I loved to play when I was a kid.
 I think it was called Block Breaker at the time.
 
