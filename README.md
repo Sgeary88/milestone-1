@@ -25,7 +25,7 @@ Came across a few bugs, while building and adding to the code.
     so you couldn't see the anything but the background. 
 3. When trying to move the paddle off the bottom of the canvas, the ball would go through the paddle
 4. When a life was lost and it reset, the ball would reset under the paddle causing all lives to be lost immediately.
-5. Sometimes winning sound doesn't play, or the lose sound
+5. Winning sound doesn't play
 6. Ball sometimes when hitting bottom doesn't reset. Bounces between the paddles and floor.
 
 **Things I wanted to add:**

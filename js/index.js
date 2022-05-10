@@ -37,7 +37,7 @@ let lives = 3;
 const fxBrick = new Audio('./SFX/Dull-Bubble.mp3');
 const fxPaddle = new Audio('./SFX/Dull-Bubble.mp3');
 const fxWall = new Audio('./SFX/Dull-Bubble.mp3');
-const fxWin = new Audio('./SFX/male-voice-cheer.wav');
+const fxWin = new Audio('./SFX/crowd-cheer.mp3');
 const fxLose = new Audio('./SFX/sad-trombone.mp3')
 
 // creating variables for left and right key presses, is false because key are not pressed in the beginning
@@ -69,6 +69,23 @@ document.addEventListener('keyup', keyUp, false);
 
 // adding event listeners for mouse movement
 // document.addEventListener('mousemove', mouseMoveHandler, false);
+document.addEventListener('touchstart', touchHandler);
+document.addEventListener('touchmove', touchHandler);
+
+function touchHandler(e) {
+    if(e.touches) {
+        playerX = e.touches[0].pageX - canv.offsetLeft - paddleX
+    }
+}
+
+// clientX returns horizontal coordinate of the mouse pointer
+/* function mouseMoveHandler(e) {
+    let mouseX = e.clientX - canv.offsetLeft;
+    if(mouseX > 0 && mouseX < canv.width) {
+        paddleX = mouseX - paddleWidth/2;
+    }
+}
+*/
 
 // function for collision detection on bricks
 function collisionHit() {
@@ -83,8 +100,8 @@ function collisionHit() {
                 score++;
                 if (score === brickRow * brickColumn) {
                     alert('YOU WIN!!!');
-                    fxWin.play();
                     document.location.reload();
+                    fxWin.play();
                     
                     }
                 }
@@ -115,14 +132,6 @@ function drawPaddle() {
     render.closePath;
     
 }
-// clientX returns horizontal coordinate of the mouse pointer
-/* function mouseMoveHandler(e) {
-    let mouseX = e.clientX - canv.offsetLeft;
-    if(mouseX > 0 && mouseX < canv.width) {
-        paddleX = mouseX - paddleWidth/2;
-    }
-}
-*/
 
 // function for drawing bricks, loops through all the bricks in the array
 function drawBricks() {
