@@ -69,14 +69,6 @@ document.addEventListener('keyup', keyUp, false);
 
 // adding event listeners for mouse movement
 // document.addEventListener('mousemove', mouseMoveHandler, false);
-document.addEventListener('touchstart', touchHandler);
-document.addEventListener('touchmove', touchHandler);
-
-function touchHandler(e) {
-    if(e.touches) {
-        playerX = e.touches[0].pageX - canv.offsetLeft - paddleX
-    }
-}
 
 // clientX returns horizontal coordinate of the mouse pointer
 /* function mouseMoveHandler(e) {
